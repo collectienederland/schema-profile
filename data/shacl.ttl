@@ -155,9 +155,9 @@ cn:MediaObjectShapeMinCount
                   sh:minCount 1;
                   sh:severity    sh:Warning ;
                 ] ;
-    sh:property [ sh:path schema:url ;
-                  sh:minCount 1;
-                  sh:severity    sh:Warning ; ] ;
+#    sh:property [ sh:path schema:url ;
+#                  sh:minCount 1;
+#                  sh:severity    sh:Warning ; ] ;
 .
 
 cn:MediaObjectShapeMaxCount
@@ -175,9 +175,9 @@ cn:MediaObjectShapeMaxCount
     sh:property [ sh:path schema:thumbnailUrl ;
                   sh:maxCount 1;
                   sh:severity    sh:Warning ; ] ;
-    sh:property [ sh:path schema:url ;
-                  sh:maxCount 1;
-                  sh:severity    sh:Warning ; ] ;
+#    sh:property [ sh:path schema:url ;
+#                  sh:maxCount 1;
+#                  sh:severity    sh:Warning ; ] ;
     sh:property [ sh:path schema:encodingFormat ;
                   sh:maxCount 1;
                   sh:severity    sh:Warning ; ] ;
@@ -194,9 +194,9 @@ cn:MediaObjectShapeType
     sh:property [ sh:path schema:contentUrl ;
                   sh:nodeKind sh:IRI;
                   sh:severity  sh:Violation ; ] ;
-    sh:property [ sh:path schema:url ;
-                  sh:nodeKind sh:IRI;
-                  sh:severity    sh:Warning ; ] ;
+#    sh:property [ sh:path schema:url ;
+#                  sh:nodeKind sh:IRI;
+#                  sh:severity    sh:Warning ; ] ;
     sh:property [ sh:path schema:copyrightHolder ;
                   sh:nodeKind sh:IRI;
                   sh:severity    sh:Warning ; ] ;

@@ -11,7 +11,9 @@ The shacl shape is located here: ```data/shacl.ttl```.
 ---
   config:
     theme: forest
-    class:
+    nodeSpacing: 20
+    rankSpacing: 100
+    class:  
       hideEmptyMembersBox: true
 ---
 classDiagram

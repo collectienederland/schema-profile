@@ -376,3 +376,11 @@ class lit_21["xsd:string"]
 creativework --> copyperson: copyrightHolder
 copyperson --> lit_21: name
 </pre>
+
+<script type="module">
+	import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+	mermaid.initialize({
+		startOnLoad: true,
+		theme: 'dark'
+	});
+</script>

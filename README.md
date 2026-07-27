@@ -9,7 +9,7 @@ The shacl shape is located here: ```data/shacl.ttl```.
 
 ## Overview
 
-```mermaid
+<pre class="mermaid">
 ---
   config:
     theme: forest
@@ -19,7 +19,7 @@ The shacl shape is located here: ```data/shacl.ttl```.
       hideEmptyMembersBox: true
 ---
 classDiagram
-class creativework["CreativeWork, ItemList"]
+class creativework["CreativeWork"]
 
 class lit_name["xsd:string"]
 creativework --> lit_name: name
@@ -83,14 +83,12 @@ creativework --> propval: identifier
 
 class copyperson["Person"]
 creativework --> copyperson: copyrightHolder
-
-```
-
+</pre>
 ### Person, Place, Occupation 
 
 Data that includes geocoordinates for places may add this data using the GeoCoordinates class. Data that references the administrative area of a place (e.g. province), may add this using the AdministrativeArea class. 
 
-```mermaid
+<pre class="mermaid">
 ---
   config:
     theme: forest
@@ -98,7 +96,7 @@ Data that includes geocoordinates for places may add this data using the GeoCoor
       hideEmptyMembersBox: true
 ---
 classDiagram
-class creativework["CreativeWork, ItemList"]
+class creativework["CreativeWork"]
 class place["Place, DefinedTerm"]
 class geocoor["GeoCoordinates"]
 class adminarea["AdministrativeArea, DefinedTerm"]
@@ -134,12 +132,12 @@ class lit_16["xsd:string"]
 person --> occupation: hasOccupation
 occupation --> lit_15: sameAs
 occupation --> lit_16: name
-```
+</pre>
 
 ### dateCreated and temporal
 In case an ISO-8601 value describing when the object was created is available, the field dateCreated must be used. In case another string is available that does not conform to ISO-8601, temporal must be used. In case dateCreated is used, and the value is not of the short form YYYY, xsd:Date may be used.  
 
-```mermaid
+<pre class="mermaid">
 ---
   config:
     theme: forest
@@ -147,20 +145,19 @@ In case an ISO-8601 value describing when the object was created is available, t
       hideEmptyMembersBox: true
 ---
 classDiagram
-class creativework["CreativeWork, ItemList"]
+class creativework["CreativeWork"]
 class lit_1["xsd:string"]
 creativework --> lit_1: dateCreated
 
 class lit_22["xsd:string"]
 creativework --> lit_22: temporal
-```
-
+</pre>
 
 ### MediaObject
 
 Providers that want to include data referencing the name of the holder of the copyright of a MediaObject may do so using the copyrightHolder property. 
 
-```mermaid
+<pre class="mermaid">
 ---
   config:
     theme: forest
@@ -168,7 +165,7 @@ Providers that want to include data referencing the name of the holder of the co
       hideEmptyMembersBox: true
 ---
 classDiagram
-class creativework["CreativeWork, ItemList"]
+class creativework["CreativeWork"]
 class lit_10["xsd:anyURI"]
 class lit_11["xsd:anyURI"]
 class lit_12["xsd:string"]
@@ -183,7 +180,7 @@ mediaobject --> lit_12: license
 mediaobject --> lit_23:encodingFormat
 mediaobject --> cpholder:copyrightHolder
 cpholder --> lit_30:name
-```
+</pre>
 
 ### identifier
 
@@ -191,7 +188,7 @@ Identifiers such as the ObjectID in the source collection system or persistent i
 
 
 
-```mermaid
+<pre class="mermaid">
 ---
   config:
     theme: forest
@@ -199,7 +196,7 @@ Identifiers such as the ObjectID in the source collection system or persistent i
       hideEmptyMembersBox: true
 ---
 classDiagram
-class creativework["CreativeWork, ItemList"]
+class creativework["CreativeWork"]
 class propval["PropertyValue"]
 class lit_18["xsd:string"]
 class lit_19["xsd:string"]
@@ -208,11 +205,11 @@ creativework --> propval: identifier
 propval --> lit_18: propertyID
 propval --> lit_19: value
 propval --> lit_20: description
-```
+</pre>
 
 ### additionalType, material, genre, keywords en about
 
-```mermaid
+<pre class="mermaid">
 ---
   config:
     theme: forest
@@ -220,7 +217,7 @@ propval --> lit_20: description
       hideEmptyMembersBox: true
 ---
 classDiagram
-class creativework["CreativeWork, ItemList"]
+class creativework["CreativeWork"]
 
 class additional["Text, DefinedTerm"]
 class lit_27["xsd:string"]
@@ -242,11 +239,11 @@ class lit_30["xsd:anyURI"]
 creativework --> defterm: genre, keywords, about
 defterm --> lit_29: name
 defterm --> lit_30: sameAs
-```
+</pre>
 
 ## Datamodel 
 
-```mermaid
+<pre class="mermaid">
 ---
   config:
     theme: forest
@@ -256,7 +253,7 @@ defterm --> lit_30: sameAs
       hideEmptyMembersBox: true
 ---
 classDiagram
-class creativework["CreativeWork, ItemList"]
+class creativework["CreativeWork"]
 
 class lit_name["xsd:string"]
 creativework --> lit_name: name
@@ -378,5 +375,4 @@ class copyperson["Person"]
 class lit_21["xsd:string"]
 creativework --> copyperson: copyrightHolder
 copyperson --> lit_21: name
-
-```
+</pre>

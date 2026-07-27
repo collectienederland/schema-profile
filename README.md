@@ -21,9 +21,6 @@ The shacl shape is located here: ```data/shacl.ttl```.
 classDiagram
 class creativework["CreativeWork, ItemList"]
 
-class part["CreativeWork"]
-creativework --> part: hasPart (isPartOf)
-
 class lit_name["xsd:string"]
 creativework --> lit_name: name
 
@@ -249,9 +246,6 @@ defterm --> lit_30: sameAs
 ---
 classDiagram
 class creativework["CreativeWork, ItemList"]
-
-class part["CreativeWork"]
-creativework --> part: hasPart (isPartOf)
 
 class lit_name["xsd:string"]
 creativework --> lit_name: name

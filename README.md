@@ -24,6 +24,15 @@ class creativework["CreativeWork, ItemList"]
 class lit_name["xsd:string"]
 creativework --> lit_name: name
 
+class lit_publisher["xsd:string"]
+creativework --> lit_publisher: publisher
+
+class lit_alternateName["xsd:string"]
+creativework --> lit_alternateName: alternateName
+
+class lit_datePublished["xsd:string"]
+creativework --> lit_datePublished: datePublished
+
 class lit_citation["xsd:string"]
 creativework --> lit_citation: citation
 
@@ -180,6 +189,8 @@ cpholder --> lit_30:name
 
 Identifiers such as the ObjectID in the source collection system or persistent identifiers, may be added using the identifier property using the PropertyValue class. Providers should use a canonical URL in the propertyID property if one is available. 
 
+
+
 ```mermaid
 ---
   config:
@@ -252,6 +263,15 @@ creativework --> lit_name: name
 
 class lit_citation["xsd:string"]
 creativework --> lit_citation: citation
+
+class lit_publisher["xsd:string"]
+creativework --> lit_publisher: publisher
+
+class lit_alternateName["xsd:string"]
+creativework --> lit_alternateName: alternateName
+
+class lit_datePublished["xsd:string"]
+creativework --> lit_datePublished: datePublished
 
 class lit_1["xsd:string"]
 creativework --> lit_1: dateCreated

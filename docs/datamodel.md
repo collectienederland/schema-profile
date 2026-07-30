@@ -1,3 +1,7 @@
+layout: page
+title: "Datamodel"
+permalink: http://collectienederland.github.io/schema-profile/docs/datamodel.md
+
 ## Overview
 
 <pre class="mermaid">

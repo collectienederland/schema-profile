@@ -5,7 +5,7 @@
   config:
     theme: forest
     nodeSpacing: 20
-    rankSpacing: 100
+    rankSpacing: 150
     class:  
       hideEmptyMembersBox: true
 ---
@@ -14,6 +14,9 @@ class creativework["CreativeWork"]
 
 class lit_name["xsd:string"]
 creativework --> lit_name: name
+
+class lit_cretext["xsd:string"]
+creativework --> lit_cretext: creditText
 
 class lit_publisher["xsd:string"]
 creativework --> lit_publisher: publisher
@@ -44,6 +47,9 @@ creativework --> lit_13: size
 
 class lit_14["Dataset"]
 creativework --> lit_14: isPartOf
+
+class lit_40["CreativeWork"]
+creativework --> lit_40: hasPart (isPartOf)
 
 class lit_17["xsd:anyURI"]
 creativework --> lit_17: url
@@ -239,7 +245,7 @@ defterm --> lit_30: sameAs
   config:
     theme: forest
     nodeSpacing: 20
-    rankSpacing: 100
+    rankSpacing: 150
     class:  
       hideEmptyMembersBox: true
 ---
@@ -248,6 +254,9 @@ class creativework["CreativeWork"]
 
 class lit_name["xsd:string"]
 creativework --> lit_name: name
+
+class lit_cretext["xsd:string"]
+creativework --> lit_cretext: creditText
 
 class lit_citation["xsd:string"]
 creativework --> lit_citation: citation
@@ -275,6 +284,9 @@ creativework --> lit_13: size
 
 class lit_14["xsd:anyURI"]
 creativework --> lit_14: isPartOf
+
+class lit_40["CreativeWork"]
+creativework --> lit_40: hasPart (isPartOf)
 
 class lit_17["xsd:anyURI"]
 creativework --> lit_17: url
@@ -334,6 +346,13 @@ person --> lit_6: sameAs
 person --> lit_7: deathDate
 person --> lit_8: birthDate
 person --> place: birthPlace
+
+class organisation["Organisation, DefinedTerm"]
+class organisation_same_as["xsd:anyURI"]
+class organisation_name["xsd:string"]
+creativework --> organisation: creator
+organisation --> organisation_name: name
+organisation --> organisation_same_as: sameAs
 
 class occupation["Occupation, DefinedTerm"]
 class lit_15["xsd:anyURI"]

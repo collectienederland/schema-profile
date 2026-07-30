@@ -1,7 +1,3 @@
-layout: page
-title: "Datamodel"
-permalink: /datamodel/
-
 ## Overview
 
 <pre class="mermaid">

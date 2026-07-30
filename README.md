@@ -9,13 +9,13 @@ All terms and classes on this page are defined within the namespace of Schema.or
 
 ## Aanlevervoorwaarden
 
-Documentatie aanlevervoorwaarden: [docs/aanlevervoorwaarden.md](https://github.com/collectienederland/schema-profile/blob/main/docs/aanlevervoorwaarden.md)
+Documentatie aanlevervoorwaarden: [docs/aanlevervoorwaarden.md](https://collectienederland.github.io/schema-profile/docs/aanlevervoorwaarden.md)
 
 ## Datamodel
 
-Documentatie datamodel: [docs/datamodel.md](http://collectienederland.github.io/schema-profile/docs/datamodel/)
+Documentatie datamodel: [docs/datamodel.md](https://collectienederland.github.io/schema-profile/docs/datamodel.html)
 
 ## Shacl-file
 
-The shacl shape is located here: [docs/aanlevervoorwaarden.md](https://github.com/collectienederland/schema-profile/blob/main/data/shacl.ttl).
+The shacl shape is located here: [data/shacl.ttl](https://github.com/collectienederland/schema-profile/blob/main/data/shacl.ttl).
 

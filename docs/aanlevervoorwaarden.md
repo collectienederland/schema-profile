@@ -1,6 +1,6 @@
 # Aanlevervoorwaarden voor CollectieNederland.nl
 
-## Inleiding
+## 1.1 Inleiding
 
 Op deze pagina worden de data-aanlevervoorwaarden beschreven voor
 CollectieNederland.nl. Deze omschrijving is gebaseerd op het [nieuwe
@@ -21,7 +21,7 @@ vinden onder kopje 1.4.
 De velden die minimaal nodig zijn om data aan te leveren aan
 CollectieNederland.nl staan genoteerd onder kopje 1.2.
 
-## Minimale velden voor CollectieNederland.nl
+## 1.2 Minimale velden voor CollectieNederland.nl
 
 Bij het aanleveren van collectiedata aan CollectieNederland.nl wordt
 gekeken naar of de volgende minimale velden aanwezig zijn in de data en
@@ -161,7 +161,7 @@ Profile.
 
   - <https://docs.nde.nl/schema-profile/#GeoCoordinates-longitude>
 
-## Aanbevolen velden
+## 1.3 Aanbevolen velden
 
 - **schema:about**
 
@@ -277,7 +277,7 @@ Profile.
 
   - <https://docs.nde.nl/schema-profile/#CreativeWork-isPartOf>
 
-## Afwijkingen en versoepelingen ten opzichte van het Schema.org Application Profile for NDE
+## 1.4 Afwijkingen en versoepelingen ten opzichte van het Schema.org Application Profile for NDE
 
 **Afwijkingen en versoepelingen**
 
@@ -344,7 +344,7 @@ Profile.
 
   - <https://docs.nde.nl/schema-profile/#reference-terms>
 
-## Thesauri-gebruik
+## 1.5 Thesauri-gebruik
 
 Wanneer er gebruikt gemaakt wordt van thesaurus termen dan worden de
 volgende thesauri aangenomen, afhankelijk van metadata veld: CHT,

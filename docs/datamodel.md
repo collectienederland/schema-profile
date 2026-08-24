@@ -6,9 +6,6 @@ Het datamodel voor Collectie Nederland gebruikt schema.org als beschrijvende voc
 ---
   config:
     theme: forest
-    nodeSpacing: 20
-    rankSpacing: 150
-    
     class:
       hideEmptyMembersBox: true
 ---
@@ -25,7 +22,6 @@ class creativework["CreativeWork"] {
   license xsd:string 
   description xsd:string 
   size xsd:string 
-  disambiguatingDescription xsd:string
   url xsd:anyURI 
   isPartOf xsd:anyURI 
   sdDatePublished xsd:date 
@@ -252,10 +248,6 @@ Aanvullende relevante termen.
 	import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 	mermaid.initialize({
 		startOnLoad: true,
-		theme: forest
-    nodeSpacing: 20
-    rankSpacing: 150
-    class:  
-      hideEmptyMembersBox: true
+		theme: 'dark'
 	});
 </script>

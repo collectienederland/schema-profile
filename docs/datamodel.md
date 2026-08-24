@@ -10,52 +10,23 @@
       hideEmptyMembersBox: true
 ---
 classDiagram
-class creativework["CreativeWork"]
-
-class lit_name["xsd:string"]
-creativework --> lit_name: name
-
-class lit_cretext["xsd:string"]
-creativework --> lit_cretext: creditText
-
-class lit_publisher["xsd:string"]
-creativework --> lit_publisher: publisher
-
-class lit_alternateName["xsd:string"]
-creativework --> lit_alternateName: alternateName
-
-class lit_datePublished["xsd:string"]
-creativework --> lit_datePublished: datePublished
-
-class lit_citation["xsd:string"]
-creativework --> lit_citation: citation
-
-class lit_1["xsd:string"]
-creativework --> lit_1: dateCreated
-
-class lit_22["xsd:string"]
-creativework --> lit_22: temporal
-
-class lit_24["xsd:anyURI"]
-creativework --> lit_24: license
-
-class lit_9["xsd:string"]
-creativework --> lit_9: description
-
-class lit_13["xsd:string"]
-creativework --> lit_13: size
-
-class lit_14["Dataset"]
-creativework --> lit_14: isPartOf
-
-class lit_40["CreativeWork"]
-creativework --> lit_40: hasPart (isPartOf)
-
-class lit_17["xsd:anyURI"]
-creativework --> lit_17: url
-
-class lit_25["xsd:date"]
-creativework --> lit_25: sdDatePublished
+class creativework["CreativeWork"] {
+  xsd:string name
+  xsd:string alternateName
+  xsd:string creditText
+  xsd:string publisher
+  xsd:string datePublished
+  xsd:string citation
+  xsd:string dateCreated
+  xsd:string temporal
+  xsd:string license
+  xsd:string description
+  xsd:string size
+  xsd:disambiguatingDescription
+  xsd:anyURI url
+  xsd:anyURI isPartOf
+  xsd:date sdDatePublished
+}
 
 class additional["Text, DefinedTerm"]
 creativework --> additional: additionalType
@@ -109,26 +80,20 @@ place --> adminarea: addressRegion
 adminarea --> lit_31: name
 adminarea --> lit_32: sameAs
 
-class person["Person, DefinedTerm"]
-class lit_5["xsd:string"]
-class lit_6["xsd:anyURI"]
-class lit_7["xsd:string"]
-class lit_8["xsd:string"]
-class lit_15["xsd:anyURI"]
-class lit_16["xsd:string"]
+class person["Person, DefinedTerm"]{
+  xsd:string name
+  xsd:anyURI sameAs
+  xsd:string deathDate
+  xsd:string birthDate
+  xsd:anyURI birthPlace
+}
 creativework --> person: creator
-person --> lit_5: name
-person --> lit_6: sameAs
-person --> lit_7: deathDate
-person --> lit_8: birthDate
-person --> place: birthPlace
+class occupation["Occupation, DefinedTerm"]{
+  xsd:string name
+  xsd:anyURI sameAs
+}
 
-class occupation["Occupation, DefinedTerm"]
-class lit_15["xsd:anyURI"]
-class lit_16["xsd:string"]
 person --> occupation: hasOccupation
-occupation --> lit_15: sameAs
-occupation --> lit_16: name
 </pre>
 
 ### dateCreated and temporal
@@ -387,10 +352,14 @@ creativework --> copyperson: copyrightHolder
 copyperson --> lit_21: name
 </pre>
 
-<script type="module">
+<!--<script type="module">
 	import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 	mermaid.initialize({
 		startOnLoad: true,
-		theme: 'dark'
+		theme: forest
+    nodeSpacing: 20
+    rankSpacing: 150
+    class:  
+      hideEmptyMembersBox: true
 	});
-</script>
+</script>-->

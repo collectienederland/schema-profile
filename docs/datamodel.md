@@ -1,4 +1,6 @@
-## Overview
+## Overzicht
+
+Het datamodel voor Collectie Nederland gebruikt schema.org als beschrijvende vocabulaire. Hieronder is een overzicht van het datamodel te zien. Als centrale klasse word [CreativeWork](https://schema.org/CreativeWork) gebruikt.
 
 <pre class="mermaid">
 ---
@@ -6,55 +8,97 @@
     theme: forest
     nodeSpacing: 20
     rankSpacing: 150
-    class:  
+    
+    class:
       hideEmptyMembersBox: true
 ---
 classDiagram
 class creativework["CreativeWork"] {
-  xsd:string name
-  xsd:string alternateName
-  xsd:string creditText
-  xsd:string publisher
-  xsd:string datePublished
-  xsd:string citation
-  xsd:string dateCreated
-  xsd:string temporal
-  xsd:string license
-  xsd:string description
-  xsd:string size
-  xsd:disambiguatingDescription
-  xsd:anyURI url
-  xsd:anyURI isPartOf
-  xsd:date sdDatePublished
+  name xsd:string 
+  alternateName xsd:string 
+  creditText xsd:string 
+  publisher xsd:string 
+  datePublished xsd:string 
+  citation xsd:string 
+  dateCreated xsd:string 
+  temporal xsd:string 
+  license xsd:string 
+  description xsd:string 
+  size xsd:string 
+  disambiguatingDescription xsd:string
+  url xsd:anyURI 
+  isPartOf xsd:anyURI 
+  sdDatePublished xsd:date 
 }
 
-class additional["Text, DefinedTerm"]
+class additional["Text, DefinedTerm"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
 creativework --> additional: additionalType
 
-class product["Product, DefinedTerm"]
+class product["Product, DefinedTerm"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
 creativework --> product: material
 
-class defterm["DefinedTerm"]
+class defterm["DefinedTerm"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
 creativework --> defterm: genre, keywords, about
-
-class place["Place, DefinedTerm"]
+class place["Place, DefinedTerm"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
+class geocoor["GeoCoordinates"] {
+  latitude xsd:string
+  longitude xsd:string
+}
+class adminarea["AdministrativeArea, DefinedTerm"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
 creativework --> place: locationCreated
+place --> geocoor: geo
+place --> adminarea: addressRegion
 
-class person["Person, DefinedTerm"]
+class person["Person, DefinedTerm"]{
+  name xsd:string 
+   sameAs xsd:anyURI 
+  deathDate xsd:string 
+  birthDate xsd:string 
+  birthPlace xsd:anyURI 
+}
 creativework --> person: creator
+class occupation["Occupation, DefinedTerm"]{
+  name xsd:string 
+  sameAs xsd:anyURI 
+}
+person --> occupation: hasOccupation
 
-class mediaobject["MediaObject"]
+class mediaobject["MediaObject"] {
+  contentUrl xsd:anyURI
+  thumbnailUrl xsd:anyURI
+  license xsd:string
+  encodingFormat xsd:anyURI
+}
 creativework --> mediaobject: associatedMedia (encodesCreativeWork)
+mediaobject --> person:copyrightHolder
 
-class propval["PropertyValue"]
+class propval["PropertyValue"] {
+  propertyID xsd:string
+  value xsd:string
+  description xsd:string
+}
 creativework --> propval: identifier
 
-class copyperson["Person"]
-creativework --> copyperson: copyrightHolder
 </pre>
+
 ### Person, Place, Occupation 
 
-Data that includes geocoordinates for places may add this data using the GeoCoordinates class. Data that references the administrative area of a place (e.g. province), may add this using the AdministrativeArea class. 
+Gegevens over het ontstaan van een werk worden in het model weergegeven als volgt.
 
 <pre class="mermaid">
 ---
@@ -64,56 +108,54 @@ Data that includes geocoordinates for places may add this data using the GeoCoor
       hideEmptyMembersBox: true
 ---
 classDiagram
-class creativework["CreativeWork"]
-class place["Place, DefinedTerm"]
-class geocoor["GeoCoordinates"]
-class adminarea["AdministrativeArea, DefinedTerm"]
-class lit_3["xsd:string"]
-class lit_4["xsd:anyURI"]
-class lit_31["xsd:string"]
-class lit_32["xsd:anyURI"]
+class creativework["CreativeWork"] {
+  dateCreated xsd:string
+  temporal xsd:string
+}
+class place["Place, DefinedTerm"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
+class geocoor["GeoCoordinates"] {
+  latitude xsd:string
+  longitude xsd:string
+}
+class adminarea["AdministrativeArea, DefinedTerm"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
 creativework --> place: locationCreated
-place --> lit_3: name
-place --> lit_4: sameAs
 place --> geocoor: geo
 place --> adminarea: addressRegion
-adminarea --> lit_31: name
-adminarea --> lit_32: sameAs
 
 class person["Person, DefinedTerm"]{
-  xsd:string name
-  xsd:anyURI sameAs
-  xsd:string deathDate
-  xsd:string birthDate
-  xsd:anyURI birthPlace
+  name xsd:string 
+   sameAs xsd:anyURI 
+  deathDate xsd:string 
+  birthDate xsd:string 
+  birthPlace xsd:anyURI 
 }
 creativework --> person: creator
 class occupation["Occupation, DefinedTerm"]{
-  xsd:string name
-  xsd:anyURI sameAs
+  name xsd:string 
+  sameAs xsd:anyURI 
 }
 
 person --> occupation: hasOccupation
 </pre>
 
-### dateCreated and temporal
-In case an ISO-8601 value describing when the object was created is available, the field dateCreated must be used. In case another string is available that does not conform to ISO-8601, temporal must be used. In case dateCreated is used, and the value is not of the short form YYYY, xsd:Date may be used.  
-
-<pre class="mermaid">
----
-  config:
-    theme: forest
-    class:
-      hideEmptyMembersBox: true
----
-classDiagram
-class creativework["CreativeWork"]
-class lit_1["xsd:string"]
-creativework --> lit_1: dateCreated
-
-class lit_22["xsd:string"]
-creativework --> lit_22: temporal
-</pre>
+#### [Person](https://schema.org/Person)
+De maker van het werk. In sommige gevallen kan dit een organisatie zijn. 
+#### [Occupation](https://schema.org/Occupation)
+De rol van de maker van het werk.
+#### [Place](https://schema.org/Place)
+De plek waar het werk gemaakt is.
+#### [GeoCoordinates](https://schema.org/CreativeWork)
+De coordinaten van de plek waar het werk gemaakt is.
+#### [AdministrativeArea](https://schema.org/AdministrativeArea)
+De provincie van de plek waar het werk gemaakt is.
+#### [dateCreated](https://schema.org/dateCreated) and [temporal](https://schema.org/temporal)
+Als de datum van de creatie door middel van een ISO-8601 conformerende waarde beschikbaar is, wordt die opgenomen in het veld dateCreated. Zo niet, kan temporal worden gebruikt.
 
 ### MediaObject
 
@@ -127,28 +169,28 @@ Providers that want to include data referencing the name of the holder of the co
       hideEmptyMembersBox: true
 ---
 classDiagram
-class creativework["CreativeWork"]
-class lit_10["xsd:anyURI"]
-class lit_11["xsd:anyURI"]
-class lit_12["xsd:string"]
-class lit_23["xsd:anyURI"]
-class cpholder["Person"]
-class lit_30["xsd:string"]
-class mediaobject["MediaObject"]
+class creativework["CreativeWork"] 
+
+class mediaobject["MediaObject"] {
+  contentUrl xsd:anyURI
+  thumbnailUrl xsd:anyURI
+  license xsd:string
+  encodingFormat xsd:anyURI
+}
 creativework --> mediaobject: associatedMedia (encodesCreativeWork)
-mediaobject --> lit_10: contentUrl
-mediaobject --> lit_11: thumbnailUrl
-mediaobject --> lit_12: license
-mediaobject --> lit_23:encodingFormat
+class cpholder["Person"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
 mediaobject --> cpholder:copyrightHolder
-cpholder --> lit_30:name
 </pre>
+#### [MediaObject](https://schema.org/MediaObject)
+De link naar beschikbare media van het werk word gemaakt door middel van het MediaObject. 
+#### [copyrightHolder](https://schema.org/copyrightHolder)
+Als MediaObjecten onder copyright vallen, kan dat opgenomen worden door middel van de relatie copyrightHolder.
 
 ### identifier
-
-Identifiers such as the ObjectID in the source collection system or persistent identifiers, may be added using the identifier property using the PropertyValue class. Providers should use a canonical URL in the propertyID property if one is available. 
-
-
+IDs, bijvoorbeeld PIDs of IDs uit het collectiebeheersysteem die voor context belangrijk zijn kunnen worden toegevoegd door middel van de PropertyValuye klasse. 
 
 <pre class="mermaid">
 ---
@@ -159,18 +201,18 @@ Identifiers such as the ObjectID in the source collection system or persistent i
 ---
 classDiagram
 class creativework["CreativeWork"]
-class propval["PropertyValue"]
-class lit_18["xsd:string"]
-class lit_19["xsd:string"]
-class lit_20["xsd:string"]
+class propval["PropertyValue"] {
+  propertyID xsd:string
+  value xsd:string
+  description xsd:string
+}
 creativework --> propval: identifier
-propval --> lit_18: propertyID
-propval --> lit_19: value
-propval --> lit_20: description
 </pre>
 
 ### additionalType, material, genre, keywords en about
 
+Beschrijvende gegevens over het werk worden op de volgende manier opgenomen. 
+
 <pre class="mermaid">
 ---
   config:
@@ -181,178 +223,32 @@ propval --> lit_20: description
 classDiagram
 class creativework["CreativeWork"]
 
-class additional["Text, DefinedTerm"]
-class lit_27["xsd:string"]
-class lit_28["xsd:anyURI"]
+class additional["Text, DefinedTerm"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
 creativework --> additional: additionalType
-additional --> lit_27: name
-additional --> lit_28: sameAs
 
-class product["Product, DefinedTerm"]
-class lit_0["xsd:string"]
-class lit_2["xsd:anyURI"]
+class product["Product, DefinedTerm"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
 creativework --> product: material
-product --> lit_0: name
-product --> lit_2: sameAs
 
-class defterm["DefinedTerm"]
-class lit_29["xsd:string"]
-class lit_30["xsd:anyURI"]
+class defterm["DefinedTerm"] {
+  name xsd:string
+  sameAs xsd:anyURI
+}
 creativework --> defterm: genre, keywords, about
-defterm --> lit_29: name
-defterm --> lit_30: sameAs
 </pre>
+#### [Product](https://schema.org/Product)
+Materiaal van het werk.
+#### [Text](https://schema.org/Text)
+Aanvullende tekstuele beschrijving. 
+#### [DefinedTerm](https://schema.org/DefinedTerm)
+Aanvullende relevante termen.
 
-## Datamodel 
-
-<pre class="mermaid">
----
-  config:
-    theme: forest
-    nodeSpacing: 20
-    rankSpacing: 150
-    class:  
-      hideEmptyMembersBox: true
----
-classDiagram
-class creativework["CreativeWork"]
-
-class lit_name["xsd:string"]
-creativework --> lit_name: name
-
-class lit_cretext["xsd:string"]
-creativework --> lit_cretext: creditText
-
-class lit_citation["xsd:string"]
-creativework --> lit_citation: citation
-
-class lit_publisher["xsd:string"]
-creativework --> lit_publisher: publisher
-
-class lit_alternateName["xsd:string"]
-creativework --> lit_alternateName: alternateName
-
-class lit_datePublished["xsd:string"]
-creativework --> lit_datePublished: datePublished
-
-class lit_1["xsd:string"]
-creativework --> lit_1: dateCreated
-
-class lit_24["xsd:anyURI"]
-creativework --> lit_24: license
-
-class lit_9["xsd:string"]
-creativework --> lit_9: description
-
-class lit_13["xsd:string"]
-creativework --> lit_13: size
-
-class lit_14["xsd:anyURI"]
-creativework --> lit_14: isPartOf
-
-class lit_40["CreativeWork"]
-creativework --> lit_40: hasPart (isPartOf)
-
-class lit_17["xsd:anyURI"]
-creativework --> lit_17: url
-
-class lit_22["xsd:string"]
-creativework --> lit_22: temporal
-
-class lit_25["xsd:date"]
-creativework --> lit_25: sdDatePublished
-
-class additional["Text, DefinedTerm"]
-class lit_27["xsd:string"]
-class lit_28["xsd:anyURI"]
-creativework --> additional: additionalType
-additional --> lit_27: name
-additional --> lit_28: sameAs
-
-class product["Product, DefinedTerm"]
-class lit_0["xsd:string"]
-class lit_2["xsd:anyURI"]
-creativework --> product: material
-product --> lit_0: name
-product --> lit_2: sameAs
-
-class defterm["DefinedTerm"]
-class lit_29["xsd:string"]
-class lit_30["xsd:anyURI"]
-creativework --> defterm: genre, keywords, about
-defterm --> lit_29: name
-defterm --> lit_30: sameAs
-
-class place["Place, DefinedTerm"]
-class geocoor["GeoCoordinates"]
-class adminarea["AdministrativeArea, DefinedTerm"]
-class lit_3["xsd:string"]
-class lit_4["xsd:anyURI"]
-class lit_31["xsd:string"]
-class lit_32["xsd:anyURI"]
-creativework --> place: locationCreated
-place --> lit_3: name
-place --> lit_4: sameAs
-place --> geocoor: geo
-place --> adminarea: addressRegion
-adminarea --> lit_31: name
-adminarea --> lit_32: sameAs
-
-class person["Person, DefinedTerm"]
-class lit_5["xsd:string"]
-class lit_6["xsd:anyURI"]
-class lit_7["xsd:string"]
-class lit_8["xsd:string"]
-class lit_15["xsd:anyURI"]
-class lit_16["xsd:string"]
-creativework --> person: creator
-person --> lit_5: name
-person --> lit_6: sameAs
-person --> lit_7: deathDate
-person --> lit_8: birthDate
-person --> place: birthPlace
-
-class organisation["Organisation, DefinedTerm"]
-class organisation_same_as["xsd:anyURI"]
-class organisation_name["xsd:string"]
-creativework --> organisation: creator
-organisation --> organisation_name: name
-organisation --> organisation_same_as: sameAs
-
-class occupation["Occupation, DefinedTerm"]
-class lit_15["xsd:anyURI"]
-class lit_16["xsd:string"]
-person --> occupation: hasOccupation
-occupation --> lit_15: sameAs
-occupation --> lit_16: name
-
-class mediaobject["MediaObject"]
-class lit_10["xsd:anyURI"]
-class lit_11["xsd:anyURI"]
-class lit_12["xsd:string"]
-class lit_23["xsd:anyURI"]
-creativework --> mediaobject: associatedMedia (encodesCreativeWork)
-mediaobject --> lit_10: contentUrl
-mediaobject --> lit_11: thumbnailUrl
-mediaobject --> lit_12: license
-mediaobject --> lit_23:encodingFormat
-
-class propval["PropertyValue"]
-class lit_18["xsd:string"]
-class lit_19["xsd:string"]
-class lit_20["xsd:string"]
-creativework --> propval: identifier
-propval --> lit_18: propertyID
-propval --> lit_19: value
-propval --> lit_20: description
-
-class copyperson["Person"]
-class lit_21["xsd:string"]
-creativework --> copyperson: copyrightHolder
-copyperson --> lit_21: name
-</pre>
-
-<!--<script type="module">
+<script type="module">
 	import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 	mermaid.initialize({
 		startOnLoad: true,
@@ -362,4 +258,4 @@ copyperson --> lit_21: name
     class:  
       hideEmptyMembersBox: true
 	});
-</script>-->
+</script>

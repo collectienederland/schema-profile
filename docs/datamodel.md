@@ -163,9 +163,8 @@ De provincie waarin de plek zich bevindt.
 #### [dateCreated](https://schema.org/dateCreated) and [temporal](https://schema.org/temporal)
 Als de datum van de creatie door middel van een ISO-8601 conformerende waarde beschikbaar is, wordt die opgenomen in het veld dateCreated. Zo niet, kan temporal worden gebruikt.
 
-### MediaObject
-
-Rechthebbenden van een MediaObject, zoals een afbeelding kunnen opgenomen worden als copyrightHolder. 
+### [MediaObject](https://schema.org/MediaObject)
+De link naar beschikbare media van een werk word gemaakt door middel van het MediaObject. 
 
 <pre class="mermaid">
 ---
@@ -192,14 +191,12 @@ class cpholder["Person"] {
 mediaobject --> cpholder:copyrightHolder
 </pre>
 
-#### [MediaObject](https://schema.org/MediaObject)
-De link naar beschikbare media van het werk word gemaakt door middel van het MediaObject. 
-##### [license*](https://schema.org/license)
+#### [license*](https://schema.org/license)
 Rechtenstatement vanuit brondata edm:rights.
-##### [copyrightNotice](https://schema.org/copyrightNotice)
+#### [copyrightNotice](https://schema.org/copyrightNotice)
 Rechtenstatement vanuit brondata dc:rights.
-##### [copyrightHolder](https://schema.org/copyrightHolder)
-Als MediaObjecten onder copyright vallen, kan dat opgenomen worden door middel van de relatie copyrightHolder.
+#### [copyrightHolder](https://schema.org/copyrightHolder)
+Als MediaObjecten onder copyright vallen, kunnen rechthebbenden van een MediaObject worden opgenomen worden door middel van de relatie copyrightHolder.
 
 
 ### [identifier](https://schema.org/identifier)

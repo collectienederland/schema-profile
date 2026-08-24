@@ -85,6 +85,7 @@ class mediaobject["MediaObject"] {
   contentUrl xsd:anyURI
   thumbnailUrl xsd:anyURI
   license xsd:string
+  copyrightNotice xsd:string
   encodingFormat xsd:anyURI
 }
 creativework --> mediaobject: associatedMedia (encodesCreativeWork)
@@ -179,7 +180,8 @@ class creativework["CreativeWork"]
 class mediaobject["MediaObject"] {
   contentUrl xsd:anyURI
   thumbnailUrl xsd:anyURI
-  license xsd:string
+  license* xsd:string
+  copyrightNotice xsd:string
   encodingFormat xsd:anyURI
 }
 creativework --> mediaobject: associatedMedia (encodesCreativeWork)
@@ -192,8 +194,14 @@ mediaobject --> cpholder:copyrightHolder
 
 #### [MediaObject](https://schema.org/MediaObject)
 De link naar beschikbare media van het werk word gemaakt door middel van het MediaObject. 
-#### [copyrightHolder](https://schema.org/copyrightHolder)
+##### [license*](https://schema.org/license)
+Rechtenstatement vanuit brondata edm:rights.
+##### [copyrightNotice](https://schema.org/copyrightNotice)
+Rechtenstatement vanuit brondata dc:rights.
+##### [copyrightHolder](https://schema.org/copyrightHolder)
 Als MediaObjecten onder copyright vallen, kan dat opgenomen worden door middel van de relatie copyrightHolder.
+
+
 ### [identifier](https://schema.org/identifier)
 IDs, bijvoorbeeld PIDs of IDs uit het collectiebeheersysteem die voor context belangrijk zijn kunnen worden toegevoegd door middel van de PropertyValuye klasse. 
 

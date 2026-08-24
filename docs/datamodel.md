@@ -62,12 +62,14 @@ place --> adminarea: addressRegion
 
 class person["Person, DefinedTerm"]{
   name xsd:string 
-   sameAs xsd:anyURI 
-  deathDate xsd:string 
+  sameAs xsd:anyURI 
+  deathDate xsd:string  
   birthDate xsd:string 
-  birthPlace xsd:anyURI 
 }
 creativework --> person: creator
+person --> place: birthPlace
+person --> place: deathPlace
+
 class occupation["Occupation, DefinedTerm"]{
   name xsd:string 
   sameAs xsd:anyURI 
@@ -126,11 +128,13 @@ place --> adminarea: addressRegion
 
 class person["Person, DefinedTerm"]{
   name xsd:string 
-   sameAs xsd:anyURI 
+  sameAs xsd:anyURI 
   deathDate xsd:string 
   birthDate xsd:string 
-  birthPlace xsd:anyURI 
 }
+person --> place: birthPlace
+person --> place: deathPlace
+
 creativework --> person: creator
 class occupation["Occupation, DefinedTerm"]{
   name xsd:string 

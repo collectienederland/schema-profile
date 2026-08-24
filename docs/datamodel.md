@@ -227,7 +227,7 @@ Beschrijvende gegevens over het werk worden op de volgende manier opgenomen.
 classDiagram
 class creativework["CreativeWork"]
 
-class additional["Text, DefinedTerm"] {
+class additional["Text*, DefinedTerm"] {
   name xsd:string
   sameAs xsd:anyURI
 }

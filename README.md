@@ -3,9 +3,4 @@ This repository describes the schema profile developed for the platform [Collect
 
 All terms and classes on this page are defined within the namespace of Schema.org. 
 
-## [Aanlevervoorwaarden](https://collectienederland.github.io/schema-profile/docs/aanlevervoorwaarden.html)
-
 ## [Datamodel](https://collectienederland.github.io/schema-profile/docs/datamodel.html)
-
-## [Shacl-shape](https://github.com/collectienederland/schema-profile/blob/main/data/shacl.ttl)
-

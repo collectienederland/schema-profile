@@ -1,6 +1,6 @@
 # Collectie Nederland: Schema Profile
-This repository describes the schema profile developed for the platform [Collectie Nederland](https://collectienederland.nl/). It is a less-strict version of the [NDE Schema.org Application Profile](https://github.com/netwerk-digitaal-erfgoed/schema-profile), version [Version 1.2.0 (2026-07-09)](https://docs.nde.nl/schema-profile/#v1.2.0), which is described [here](https://docs.nde.nl/schema-profile/). 
-
-All terms and classes on this page are defined within the namespace of Schema.org. 
+Deze repository bevat documentatie over het toepassingsprofiel van het vernieuwde platform van [Collectie Nederland](https://collectienederland.nl/).
 
 ## [Datamodel](https://collectienederland.github.io/schema-profile/docs/datamodel.html)
+
+Zie bovenstaande pagina voor de beschrijving van het datamodel.

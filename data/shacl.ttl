@@ -4,7 +4,7 @@
 @prefix cn:     <https://collectienederland.nl/shapes/> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 
-cn:CreativeWorkNameAdditionalTypePassOne
+cn:CreativeWorkTitleShape
     a              sh:NodeShape ;
     sh:name        "schema:name of schema:additionalType" ;
     sh:description "Minstens één van de properties [schema:name of schema:additionalType] moet aanwezig." ;
@@ -12,10 +12,57 @@ cn:CreativeWorkNameAdditionalTypePassOne
     sh:or          ( [ sh:property [ sh:path       schema:name ;
                                      sh:minCount   1 ; ] ]
                      [ sh:property [ sh:path     schema:additionalType ;
+                                     sh:nodeKind sh:IRI ;
+                                     sh:property [ sh:path schema:name;sh:minCount 1 ; ] ;
                                      sh:minCount 1 ; ] ] ) ;
     sh:severity    sh:Violation ;
 .
+
+cn:CreativeWorkDateShape
+    a              sh:NodeShape ;
+    sh:name        "schema:temporal of schema:dateCreated" ;
+    sh:description "Minstens één van de properties [schema:temporal of schema:dateCreated] moet aanwezig." ;
+    sh:targetClass schema:CreativeWork ;
+    sh:or          ( [ sh:property [ sh:path       schema:temporal ;
+                                     sh:minCount   1 ; ] ]
+                     [ sh:property [ sh:path     schema:dateCreated ;
+                                     sh:minCount 1 ; ] ] ) ;
+    sh:severity    sh:Violation ;
+.
+
+cn:CreativeWorkDescriptionShape
+        a sh:NodeShape;
+        sh:name        "schema:description, schema:material, schema:locationCreated, of schema:size" ;
+        sh:description "Minstens één van de properties [schema:description, schema:material, schema:locationCreated, schema:size] moet aanwezig." ;
+        sh:targetClass schema:CreativeWork ;
+        sh:or          (
+                         [ sh:property [ sh:path       schema:description ;
+                                         sh:minCount   1 ; ] ]
+                         [ sh:property [ sh:path     schema:material ;
+                                         sh:minCount 1 ; ] ]
+                         [ sh:property [ sh:path       schema:locationCreated ;
+                                         sh:minCount   1 ; ] ]
+                         [ sh:property [ sh:path     schema:size ;
+                                         sh:minCount 1 ; ] ]
+                       ) ;
+        sh:severity    sh:Violation ;
+    .
+
 cn:CreativeWorkMandatoryAttributes
+    a              sh:NodeShape ;
+    sh:targetClass schema:CreativeWork ;
+    sh:name        "schema:sdDatePublished of schema:url" ;
+    sh:description "veld ontbreekt" ;
+    sh:property    [ sh:path     schema:sdDatePublished ;
+                     sh:minCount 1 ;
+                     sh:severity sh:Violation ; ] ;
+    sh:property    [ sh:path     schema:url ;
+                     sh:minCount 1 ;
+                     sh:description "";
+                     sh:severity sh:Warning ; ] ;
+.
+
+cn:CreativeWorkMandatoryWarningAttributes
     a              sh:NodeShape ;
     sh:targetClass schema:CreativeWork ;
     sh:name        "schema:CreativeWork: verplicht veld ontbreekt" ;
@@ -36,7 +83,7 @@ cn:CreativeWorkMandatoryAttributes
                      sh:description "license ontbreekt, INFO tot meer duidelijk is" ;
                      sh:minCount 1 ;
                      sh:severity sh:Info ; ] ;
-    sh:property    [ sh:path     schema:mainEntityOfPage ;
+    sh:property    [ sh:path     schema:url ;
                      sh:minCount 1 ;
                      sh:description "Kan ook de URI zijn, INFO tot meer duidelijk is";
                      sh:severity sh:Info ; ] ;
@@ -46,9 +93,11 @@ cn:CreativeWorkMandatoryAttributes
     sh:property    [ sh:path     schema:associatedMedia ;
                      sh:minCount 1 ;
                      sh:severity sh:Warning ; ] ;
-    sh:property    [ sh:path     schema:sdDatePublished ;
+    sh:property    [ sh:path     schema:copyrightNotice ;
                      sh:minCount 1 ;
-                     sh:severity sh:Violation ; ] ; .
+                     sh:description "";
+                     sh:severity sh:Warning ; ]  # Keep warning, only violation for Rijksmusea
+ .
 
 cn:CreativeWorkMaxCount
     a              sh:NodeShape ;
@@ -87,7 +136,7 @@ cn:CreativeWorkType
                      sh:nodeKind sh:IRI ;
                      sh:severity sh:Info ;
                    ] ;
-    sh:property    [ sh:path     schema:mainEntityOfPage ;
+    sh:property    [ sh:path     schema:url ;
                      sh:nodeKind sh:IRI ;
                      sh:severity sh:Violation ;
                    ] ;
@@ -115,6 +164,7 @@ cn:CreativeWorkType
                    ] ;
     sh:property    [ sh:path schema:creator ;
                      sh:nodeKind sh:IRI ;
+                     sh:property [ sh:path schema:name ; sh:minCount 1 ] ; # creator moet een nama hebben
                      sh:severity sh:Warning;
                    ] ;
     sh:property    [ sh:path schema:description ;

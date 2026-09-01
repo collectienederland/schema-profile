@@ -4,3 +4,6 @@ Deze repository bevat documentatie over het toepassingsprofiel van het vernieuwd
 ## [Datamodel](https://collectienederland.github.io/schema-profile/docs/datamodel.html)
 
 Zie bovenstaande pagina voor de beschrijving van het datamodel.
+
+## [Shacl-shape](https://github.com/collectienederland/schema-profile/blob/main/data/shacl.ttl)
+

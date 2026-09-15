@@ -47,7 +47,7 @@ class defterm["DefinedTerm"] {
   name xsd:string
   sameAs xsd:anyURI
 }
-creativework --> defterm: genre, keywords, about
+creativework --> defterm: genre, about
 class place["Place"] {
   name xsd:string
   sameAs xsd:anyURI
@@ -218,7 +218,7 @@ class propval["PropertyValue"] {
 creativework --> propval: identifier
 </pre>
 
-### [additionalType](https://schema.org/additionalType), [material](https://schema.org/material), [genre](https://schema.org/genre),[keywords](https://schema.org/keywords), [about](https://schema.org/about)
+### [additionalType](https://schema.org/additionalType), [material](https://schema.org/material), [genre](https://schema.org/genre), [about](https://schema.org/about)
 Beschrijvende gegevens over het werk worden op de volgende manier opgenomen. 
 
 <pre class="mermaid">
@@ -247,14 +247,14 @@ class defterm["DefinedTerm"] {
   name xsd:string
   sameAs xsd:anyURI
 }
-creativework --> defterm: genre, keywords, about
+creativework --> defterm: genre, about
 </pre>
 #### [material](https://schema.org/material)
 Materiaal dat bij de vervaardiging van het werk gebruikt is.
 #### [additionalType](https://schema.org/additionalType)
 Aanvullende tekstuele beschrijving, of categorisering van het werk. 
 #### [DefinedTerm](https://schema.org/DefinedTerm)
-Aanvullende relevante termen via relaties genre, keywords en about.
+Aanvullende relevante termen via relaties genre en about.
 
 <script type="module">
 	import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';

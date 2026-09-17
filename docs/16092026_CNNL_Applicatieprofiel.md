@@ -75,7 +75,7 @@
   - [1.3.10 schema:Product](#1310-schemaproduct)
     - [1.3.10.1 Schema:name](#13101-schemaname)
     - [1.3.10.2 Schema:sameAs](#13102-schemasameas)
-  - [1.3.11 schema:Text, schema:DefinedTerm](#1311-schematekst-schemadefinedterm)
+  - [1.3.11 schema:Text, schema:DefinedTerm](#1311-schematext-schemadefinedterm)
     - [1.3.11.1 Schema:name](#13111-schemaname)
     - [1.3.11.2 Schema:sameAs](#13112-schemasameas)
 

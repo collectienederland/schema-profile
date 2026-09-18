@@ -110,9 +110,6 @@ cn:CreativeWorkMaxCount
     sh:property    [ sh:path     schema:license ;
                      sh:maxCount 1 ;
                      sh:severity sh:Info ; ] ;
-    sh:property    [ sh:path     schema:associatedMedia ;
-                     sh:maxCount 1 ;
-                     sh:severity sh:Violation ; ] ;
     sh:property    [ sh:path     schema:dateCreated ;
                      sh:maxCount 1 ;
                      sh:severity sh:Warning ; ] ;

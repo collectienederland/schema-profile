@@ -175,7 +175,7 @@ beschrijft van het werk (CreativeWork).
 | CreativeWork | schema:additionalType | Objecttype | Keuzeveld 1 | String of URI |  |
 | CreativeWork | schema:temporal | Periode van vervaardiging | Keuzeveld 2 | String |  |
 | CreativeWork | schema:dateCreated | Vervaardigingsdatum | Keuzeveld 2 | Date |  |
-| CreativeWork | schema:description | Beschrijving van het werk | Keuzeveld 3 | String |  |
+| CreativeWork | schema:description | Beschrijving van het object | Keuzeveld 3 | String |  |
 |  |  |  |  |  |  |
 | CreativeWork | schema:material | Materiaal | Keuzeveld 3 | String/URI |  |
 | CreativeWork | schema:size | Afmetingen | Keuzeveld 3 | String/QuantitativeValue |  |
@@ -290,7 +290,7 @@ dataset.</td>
 <td>CreativeWork&gt;schema:alternateName</td>
 <td>Nee</td>
 <td>Ja — optioneel</td>
-<td>Alternatieve naam/titel van werk of maker.<mark></mark></td>
+<td>Alternatieve naam/titel van object of maker.<mark></mark></td>
 </tr>
 <tr>
 <td>CreativeWork&gt;schema:creditText</td>
@@ -304,7 +304,7 @@ gestructureerd) — hier gaat het om een breder, algemeen gebruik.</td>
 <td>CreativeWork&gt;schema:citation</td>
 <td>Nee</td>
 <td>Ja — optioneel</td>
-<td>Verwijzing naar publicaties of bronnen waarin het werk wordt
+<td>Verwijzing naar publicaties of bronnen waarin het object wordt
 beschreven.</td>
 </tr>
 <tr>

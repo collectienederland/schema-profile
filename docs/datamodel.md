@@ -1,7 +1,5 @@
 Deze pagina documenteert het datamodel voor het vernieuwde platform van [Collectie Nederland](https://collectienederland.nl/). Het datamodel gebruikt [Schema.org](https://schema.org) als beschrijvende vocabulaire, en is ontwikkeld voor de vernieuwing van het platform [Collectie Nederland](https://collectienederland.nl/). Het model is een uitbreiding van het [NDE Schema.org Applicatieprofiel](https://github.com/netwerk-digitaal-erfgoed/schema-profile), versie [Version 1.2.0 (2026-07-09)](https://docs.nde.nl/schema-profile/#v1.2.0), dat  [hier](https://docs.nde.nl/schema-profile/) beschreven staat. Afwijkingingen van het NDE applicatieprofiel zijn gemarkeerd door middel van een asterisk (*).
 
-Kardinaliteit van velden wordt beschreven in de [Aanlevervoorwaarden](https://collectienederland.github.io/schema-profile/docs/aanlevervoorwaarden.html).
-
 ## Overzicht
 
 Hieronder is een overzicht van het datamodel te zien. Als centrale klasse word [CreativeWork](https://schema.org/CreativeWork) gebruikt.

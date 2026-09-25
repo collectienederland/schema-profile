@@ -1,416 +1,474 @@
 @prefix sh:     <http://www.w3.org/ns/shacl#> .
 @prefix schema: <https://schema.org/> .
 @prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix cn:     <https://collectienederland.nl/shapes/> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+# ---------------------------------------------------------------------------
+# Conventies voor leesbare rapporten
+#
+# sh:name        (NodeShape)     "<Klasse>: <categorie>"
+#                categorieën:    verplichte eigenschappen | aanbevolen eigenschappen |
+#                                maximum aantal waarden | waardetype en formaat |
+#                                <inhoudelijke groep, bv. titel / datering>
+# sh:description (NodeShape)     één volzin die uitlegt wat de groep controleert
+# sh:message     (elke check)    komt in sh:resultMessage van het rapport:
+#   ontbreekt      "<Klasse>: <eigenschap> ontbreekt."
+#   te vaak        "<Klasse>: <eigenschap> mag maximaal één waarde hebben."
+#   URI            "<Klasse>: <eigenschap> moet een URI zijn."
+#   taaltekst      "<Klasse>: <eigenschap> moet tekst met taalcode zijn (bv. \"...\"@nl)."
+#   formaat        "<Klasse>: <eigenschap> moet de vorm JJJJ-MM-DD hebben."
+# Terminologie:  altijd "eigenschap" (niet "veld" of "property").
+# Interne notities (bv. "INFO tot meer duidelijk is") als # commentaar,
+# zodat ze niet in rapporten of documentatie terechtkomen.
+# ---------------------------------------------------------------------------
+
+
+# ===========================================================================
+# schema:CreativeWork
+# ===========================================================================
 
 cn:CreativeWorkTitleShape
     a              sh:NodeShape ;
-    sh:name        "schema:name of schema:additionalType" ;
-    sh:description "Minstens één van de properties [schema:name of schema:additionalType] moet aanwezig." ;
     sh:targetClass schema:CreativeWork ;
-    sh:or          ( [ sh:property [ sh:path       schema:name ;
-                                     sh:minCount   1 ; ] ]
+    sh:name        "CreativeWork: titel"@nl ;
+    sh:description "Een object heeft een titel nodig: schema:name, of een schema:additionalType (URI) die zelf een schema:name heeft."@nl ;
+    sh:message     "CreativeWork: geen titel. Voeg schema:name toe, of een schema:additionalType (URI) met een schema:name."@nl ;
+    sh:severity    sh:Violation ;
+    sh:or          ( [ sh:property [ sh:path     schema:name ;
+                                     sh:minCount 1 ] ]
                      [ sh:property [ sh:path     schema:additionalType ;
+                                     sh:minCount 1 ;
                                      sh:nodeKind sh:IRI ;
-                                     sh:property [ sh:path schema:name;sh:minCount 1 ; ] ;
-                                     sh:minCount 1 ; ] ] ) ;
-    sh:severity    sh:Violation ;
+                                     sh:property [ sh:path schema:name ; sh:minCount 1 ] ] ] ) ;
 .
-
-cn:CreativeWorkDateShape
-    a              sh:NodeShape ;
-    sh:name        "schema:temporal of schema:dateCreated" ;
-    sh:description "Minstens één van de properties [schema:temporal of schema:dateCreated] moet aanwezig." ;
-    sh:targetClass schema:CreativeWork ;
-    sh:or          ( [ sh:property [ sh:path       schema:temporal ;
-                                     sh:minCount   1 ; ] ]
-                     [ sh:property [ sh:path     schema:dateCreated ;
-                                     sh:minCount 1 ; ] ] ) ;
-    sh:severity    sh:Violation ;
-.
-
-cn:CreativeWorkDescriptionShape
-        a sh:NodeShape;
-        sh:name        "schema:description, schema:material, schema:locationCreated, of schema:size" ;
-        sh:description "Minstens één van de properties [schema:description, schema:material, schema:locationCreated, schema:size] moet aanwezig." ;
-        sh:targetClass schema:CreativeWork ;
-        sh:or          (
-                         [ sh:property [ sh:path       schema:description ;
-                                         sh:minCount   1 ; ] ]
-                         [ sh:property [ sh:path     schema:material ;
-                                         sh:minCount 1 ; ] ]
-                         [ sh:property [ sh:path       schema:locationCreated ;
-                                         sh:minCount   1 ; ] ]
-                         [ sh:property [ sh:path     schema:size ;
-                                         sh:minCount 1 ; ] ]
-                       ) ;
-        sh:severity    sh:Violation ;
-    .
 
 cn:CreativeWorkMandatoryAttributes
     a              sh:NodeShape ;
     sh:targetClass schema:CreativeWork ;
-    sh:name        "schema:sdDatePublished of schema:url" ;
-    sh:description "veld ontbreekt" ;
+    sh:name        "CreativeWork: verplichte eigenschappen"@nl ;
+    sh:description "Eigenschappen die voor elk object aanwezig moeten zijn."@nl ;
     sh:property    [ sh:path     schema:sdDatePublished ;
                      sh:minCount 1 ;
-                     sh:severity sh:Violation ; ] ;
-    sh:property    [ sh:path     schema:url ;
-                     sh:minCount 1 ;
-                     sh:description "";
-                     sh:severity sh:Warning ; ] ;
+                     sh:severity sh:Violation ;
+                     sh:message  "CreativeWork: schema:sdDatePublished ontbreekt."@nl ] ;
+.
+
+cn:CreativeWorkDateShape
+    a              sh:NodeShape ;
+    sh:targetClass schema:CreativeWork ;
+    sh:name        "CreativeWork: datering"@nl ;
+    sh:description "Een object hoort een datering te hebben: schema:dateCreated of schema:temporal."@nl ;
+    sh:message     "CreativeWork: geen datering. Voeg schema:dateCreated of schema:temporal toe."@nl ;
+    sh:severity    sh:Warning ;
+    sh:or          ( [ sh:property [ sh:path schema:temporal ;    sh:minCount 1 ] ]
+                     [ sh:property [ sh:path schema:dateCreated ; sh:minCount 1 ] ] ) ;
+.
+
+cn:CreativeWorkDescriptionShape
+    a              sh:NodeShape ;
+    sh:targetClass schema:CreativeWork ;
+    sh:name        "CreativeWork: beschrijving"@nl ;
+    sh:description "Een object hoort minstens één beschrijvend gegeven te hebben: schema:description, schema:material, schema:locationCreated of schema:size."@nl ;
+    sh:message     "CreativeWork: geen beschrijvende gegevens. Voeg schema:description, schema:material, schema:locationCreated of schema:size toe."@nl ;
+    sh:severity    sh:Warning ;
+    sh:or          ( [ sh:property [ sh:path schema:description ;     sh:minCount 1 ] ]
+                     [ sh:property [ sh:path schema:material ;        sh:minCount 1 ] ]
+                     [ sh:property [ sh:path schema:locationCreated ; sh:minCount 1 ] ]
+                     [ sh:property [ sh:path schema:size ;            sh:minCount 1 ] ] ) ;
 .
 
 cn:CreativeWorkMandatoryWarningAttributes
     a              sh:NodeShape ;
     sh:targetClass schema:CreativeWork ;
-    sh:name        "schema:CreativeWork: verplicht veld ontbreekt" ;
-    sh:description "veld ontbreekt" ;
-    sh:property    [ sh:path schema:name ;
-                     sh:minCount 1;
-                     sh:severity sh:Warning; ] ;
-    sh:property    [ sh:path schema:description ;
-                     sh:minCount 1;
-                     sh:severity sh:Warning; ] ;
-    sh:property    [ sh:path schema:creator ;
-                     sh:minCount 1;
-                     sh:severity sh:Warning; ] ;
+    sh:name        "CreativeWork: aanbevolen eigenschappen"@nl ;
+    sh:description "Eigenschappen die voor elk object aanwezig horen te zijn; ontbreken levert een waarschuwing op."@nl ;
+    sh:property    [ sh:path     schema:name ;
+                     sh:minCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:name ontbreekt."@nl ] ;
+    sh:property    [ sh:path     schema:description ;
+                     sh:minCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:description ontbreekt."@nl ] ;
+    sh:property    [ sh:path     schema:creator ;
+                     sh:minCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:creator ontbreekt."@nl ] ;
     sh:property    [ sh:path     schema:additionalType ;
                      sh:minCount 1 ;
-                     sh:severity sh:Warning ; ] ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:additionalType ontbreekt."@nl ] ;
+    # Info tot er een besluit is over verplichte licenties
     sh:property    [ sh:path     schema:license ;
-                     sh:description "license ontbreekt, INFO tot meer duidelijk is" ;
                      sh:minCount 1 ;
-                     sh:severity sh:Info ; ] ;
+                     sh:severity sh:Info ;
+                     sh:message  "CreativeWork: schema:license ontbreekt."@nl ] ;
+    # Mag ook de URI van het object zijn; nog te besluiten
     sh:property    [ sh:path     schema:url ;
                      sh:minCount 1 ;
-                     sh:description "Kan ook de URI zijn, INFO tot meer duidelijk is";
-                     sh:severity sh:Info ; ] ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:url ontbreekt."@nl ] ;
     sh:property    [ sh:path     schema:isPartOf ;
                      sh:minCount 1 ;
-                     sh:severity sh:Warning ; ] ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:isPartOf ontbreekt."@nl ] ;
     sh:property    [ sh:path     schema:associatedMedia ;
                      sh:minCount 1 ;
-                     sh:severity sh:Warning ; ] ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:associatedMedia ontbreekt."@nl ] ;
+    # Warning houden; alleen Violation voor Rijksmusea
     sh:property    [ sh:path     schema:copyrightNotice ;
                      sh:minCount 1 ;
-                     sh:description "";
-                     sh:severity sh:Warning ; ]  # Keep warning, only violation for Rijksmusea
- .
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:copyrightNotice ontbreekt."@nl ] ;
+.
 
 cn:CreativeWorkMaxCount
     a              sh:NodeShape ;
     sh:targetClass schema:CreativeWork ;
-    sh:name        "schema:CreativeWork: verplicht veld komt te vaak voor" ;
-    sh:description "veld komt te vaak voor" ;
-    sh:property    [ sh:path schema:name ;
-                     sh:maxCount 1;
-                     sh:severity sh:Violation; ] ;
+    sh:name        "CreativeWork: maximum aantal waarden"@nl ;
+    sh:description "Eigenschappen die maximaal één waarde mogen hebben."@nl ;
+    sh:property    [ sh:path     schema:name ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:name mag maximaal één waarde hebben."@nl ] ;
     sh:property    [ sh:path     schema:license ;
                      sh:maxCount 1 ;
-                     sh:severity sh:Info ; ] ;
+                     sh:severity sh:Info ;
+                     sh:message  "CreativeWork: schema:license mag maximaal één waarde hebben."@nl ] ;
     sh:property    [ sh:path     schema:dateCreated ;
                      sh:maxCount 1 ;
-                     sh:severity sh:Warning ; ] ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:dateCreated mag maximaal één waarde hebben."@nl ] ;
 .
 
 cn:CreativeWorkType
     a              sh:NodeShape ;
     sh:targetClass schema:CreativeWork ;
-    sh:name        "schema:CreativeWork: veldtype is incorrect" ;
-    sh:description "veldtype incorrect" ;
-    sh:property    [ sh:path     schema:name ;
+    sh:name        "CreativeWork: waardetype en formaat"@nl ;
+    sh:description "Eigenschappen waarvan de waarde van het juiste type of in het juiste formaat moet zijn."@nl ;
+    sh:property    [ sh:path       schema:name ;
                      sh:datatype   rdf:langString ;
                      sh:uniqueLang true ;
-                     sh:severity sh:Warning ;
-                   ] ;
+                     sh:severity   sh:Warning ;
+                     sh:message    "CreativeWork: schema:name moet tekst met taalcode zijn (bv. \"...\"@nl), maximaal één per taal."@nl ] ;
     sh:property    [ sh:path     schema:additionalType ;
                      sh:nodeKind sh:IRI ;
                      sh:severity sh:Warning ;
-                   ] ;
+                     sh:message  "CreativeWork: schema:additionalType moet een URI zijn."@nl ] ;
     sh:property    [ sh:path     schema:license ;
                      sh:nodeKind sh:IRI ;
                      sh:severity sh:Info ;
-                   ] ;
+                     sh:message  "CreativeWork: schema:license moet een URI zijn."@nl ] ;
     sh:property    [ sh:path     schema:url ;
                      sh:nodeKind sh:IRI ;
                      sh:severity sh:Violation ;
-                   ] ;
+                     sh:message  "CreativeWork: schema:url moet een URI zijn."@nl ] ;
     sh:property    [ sh:path     schema:isPartOf ;
                      sh:nodeKind sh:IRI ;
                      sh:severity sh:Warning ;
-                   ] ;
+                     sh:message  "CreativeWork: schema:isPartOf moet een URI zijn."@nl ] ;
     sh:property    [ sh:path     schema:associatedMedia ;
                      sh:nodeKind sh:IRI ;
                      sh:severity sh:Warning ;
-                   ] ;
+                     sh:message  "CreativeWork: schema:associatedMedia moet een URI zijn."@nl ] ;
     sh:property    [ sh:path     schema:sdDatePublished ;
-                     sh:severity sh:Violation ;
                      sh:pattern  "^\\d{4}-\\d{2}-\\d{2}$" ;
-                     sh:description "vorm moet 'YYYY-MM-DD' zijn"
-                   ] ;
-    sh:property    [ sh:path schema:dateCreated ;
-                     sh:pattern "^\\d{4}(-\\d{2}(-\\d{2})?)?$" ;
-                     sh:severity sh:Warning;
-                     sh:description "dateCreated moet bestaan uit een v/d volgende formats: 'YYYY-MM-DD', 'YYYY-MM', of 'YYYY'"
-                   ] ;
-    sh:property    [ sh:path schema:temporal ;
-                     sh:datatype xsd:string;
-                     sh:severity sh:Info;
-                   ] ;
-    sh:property    [ sh:path schema:creator ;
-                     sh:nodeKind sh:IRI ;
-                     sh:property [ sh:path schema:name ; sh:minCount 1 ] ; # creator moet een nama hebben
-                     sh:severity sh:Warning;
-                   ] ;
-    sh:property    [ sh:path schema:description ;
-                     sh:datatype rdf:langString;
-                     sh:severity sh:Warning;
-                   ] ;
-    sh:property    [ sh:path schema:material ;
-                     sh:nodeKind sh:IRI ;
-                     sh:severity sh:Warning;
-                   ] ;
-    sh:property    [ sh:path schema:size ;
+                     sh:severity sh:Violation ;
+                     sh:message  "CreativeWork: schema:sdDatePublished moet de vorm JJJJ-MM-DD hebben."@nl ] ;
+    sh:property    [ sh:path     schema:dateCreated ;
+                     sh:pattern  "^\\d{4}(-\\d{2}(-\\d{2})?)?$" ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:dateCreated moet de vorm JJJJ-MM-DD, JJJJ-MM of JJJJ hebben."@nl ] ;
+    sh:property    [ sh:path     schema:temporal ;
                      sh:datatype xsd:string ;
-                     sh:severity sh:Warning;
-                   ] ;
-    sh:property    [ sh:path schema:locationCreated ;
+                     sh:severity sh:Info ;
+                     sh:message  "CreativeWork: schema:temporal moet tekst zonder taalcode zijn."@nl ] ;
+    sh:property    [ sh:path     schema:creator ;
                      sh:nodeKind sh:IRI ;
-                     sh:severity sh:Warning;
-                   ];
-    sh:property    [ sh:path schema:copyrightHolder ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:creator moet een URI zijn."@nl ;
+                     sh:property [ sh:path     schema:name ;
+                                   sh:minCount 1 ;
+                                   sh:severity sh:Warning ;
+                                   sh:message  "CreativeWork: de maker (schema:creator) heeft geen schema:name."@nl ] ] ;
+    sh:property    [ sh:path     schema:description ;
+                     sh:datatype rdf:langString ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:description moet tekst met taalcode zijn (bv. \"...\"@nl)."@nl ] ;
+    sh:property    [ sh:path     schema:material ;
                      sh:nodeKind sh:IRI ;
-                     sh:severity sh:Warning;
-                   ];
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:material moet een URI zijn."@nl ] ;
+    sh:property    [ sh:path     schema:size ;
+                     sh:datatype xsd:string ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:size moet tekst zonder taalcode zijn."@nl ] ;
+    sh:property    [ sh:path     schema:locationCreated ;
+                     sh:nodeKind sh:IRI ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:locationCreated moet een URI zijn."@nl ] ;
+    sh:property    [ sh:path     schema:copyrightHolder ;
+                     sh:nodeKind sh:IRI ;
+                     sh:severity sh:Warning ;
+                     sh:message  "CreativeWork: schema:copyrightHolder moet een URI zijn."@nl ] ;
 .
 
+
+# ===========================================================================
+# schema:MediaObject
+# ===========================================================================
+
 cn:MediaObjectShapeMinCount
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:MediaObject ;
-    sh:name "schema:MediaObject: minCount" ;
-    sh:description "veld ontbreekt" ;
-    sh:property [ sh:path schema:contentUrl ;
-                  sh:minCount 1;
-                  sh:severity    sh:Violation ;
-            ] ;
-    sh:property [ sh:path schema:license ;
-                  sh:minCount 1;
-                  sh:severity    sh:Info ;
-                  sh:description "license ontbreekt, hoe hier mee om te gaan moet nog besloten worden" ;
-                ] ;
-    sh:property [ sh:path schema:thumbnailUrl ;
-                  sh:minCount 1;
-                  sh:severity    sh:Warning ;
-                ] ;
+    sh:name        "MediaObject: verplichte en aanbevolen eigenschappen"@nl ;
+    sh:description "Eigenschappen die voor elk mediabestand aanwezig moeten of horen te zijn."@nl ;
+    sh:property    [ sh:path     schema:contentUrl ;
+                     sh:minCount 1 ;
+                     sh:severity sh:Violation ;
+                     sh:message  "MediaObject: schema:contentUrl ontbreekt."@nl ] ;
+    # Info; hoe met ontbrekende licenties om te gaan moet nog besloten worden
+    sh:property    [ sh:path     schema:license ;
+                     sh:minCount 1 ;
+                     sh:severity sh:Info ;
+                     sh:message  "MediaObject: schema:license ontbreekt."@nl ] ;
+    sh:property    [ sh:path     schema:thumbnailUrl ;
+                     sh:minCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "MediaObject: schema:thumbnailUrl ontbreekt."@nl ] ;
 .
 
 cn:MediaObjectShapeMaxCount
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:MediaObject ;
-    sh:name "schema:MediaObject: maxCount" ;
-    sh:description "veld komt te vaak voor" ;
-    sh:property [ sh:path schema:contentUrl ;
-                  sh:maxCount 1;
-                  sh:severity    sh:Violation ; ] ;
-    sh:property [ sh:path schema:license ;
-                  sh:maxCount 1;
-                  sh:severity    sh:Info ; ] ;
-    sh:property [ sh:path schema:thumbnailUrl ;
-                  sh:maxCount 1;
-                  sh:severity    sh:Warning ; ] ;
-    sh:property [ sh:path schema:encodingFormat ;
-                  sh:maxCount 1;
-                  sh:severity    sh:Warning ; ] ;
+    sh:name        "MediaObject: maximum aantal waarden"@nl ;
+    sh:description "Eigenschappen die maximaal één waarde mogen hebben."@nl ;
+    sh:property    [ sh:path     schema:contentUrl ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Violation ;
+                     sh:message  "MediaObject: schema:contentUrl mag maximaal één waarde hebben."@nl ] ;
+    sh:property    [ sh:path     schema:license ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Info ;
+                     sh:message  "MediaObject: schema:license mag maximaal één waarde hebben."@nl ] ;
+    sh:property    [ sh:path     schema:thumbnailUrl ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "MediaObject: schema:thumbnailUrl mag maximaal één waarde hebben."@nl ] ;
+    sh:property    [ sh:path     schema:encodingFormat ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "MediaObject: schema:encodingFormat mag maximaal één waarde hebben."@nl ] ;
 .
 
 cn:MediaObjectShapeType
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:MediaObject ;
-    sh:name "schema:MediaObject: verkeerd type" ;
-    sh:description "veld type incorrect" ;
-    sh:property [ sh:path schema:license ;
-                  sh:nodeKind sh:IRI;
-                  sh:severity    sh:Info ; ] ;
-    sh:property [ sh:path schema:contentUrl ;
-                  sh:nodeKind sh:IRI;
-                  sh:severity  sh:Violation ; ] ;
-    sh:property [ sh:path schema:copyrightHolder ;
-                  sh:nodeKind sh:IRI;
-                  sh:severity    sh:Warning ; ] ;
-    sh:property [ sh:path schema:copyrightHolder ;
-                  sh:datatype xsd:string ;
-                  sh:severity    sh:Warning ; ] ;
+    sh:name        "MediaObject: waardetype en formaat"@nl ;
+    sh:description "Eigenschappen waarvan de waarde van het juiste type moet zijn."@nl ;
+    sh:property    [ sh:path     schema:license ;
+                     sh:nodeKind sh:IRI ;
+                     sh:severity sh:Info ;
+                     sh:message  "MediaObject: schema:license moet een URI zijn."@nl ] ;
+    sh:property    [ sh:path     schema:contentUrl ;
+                     sh:nodeKind sh:IRI ;
+                     sh:severity sh:Violation ;
+                     sh:message  "MediaObject: schema:contentUrl moet een URI zijn."@nl ] ;
+    # Was: twee losse checks (IRI én xsd:string) die elkaar altijd tegenspraken.
+    sh:property    [ sh:path     schema:copyrightHolder ;
+                     sh:or       ( [ sh:nodeKind sh:IRI ] [ sh:datatype xsd:string ] ) ;
+                     sh:severity sh:Warning ;
+                     sh:message  "MediaObject: schema:copyrightHolder moet een URI of tekst zonder taalcode zijn."@nl ] ;
 .
 
+
+# ===========================================================================
+# schema:Person
+# ===========================================================================
+
 cn:PersonShapeMinCount
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:Person ;
-    sh:name "schema:Person: verplicht veld ontbreekt" ;
-    sh:description "veld ontbreekt" ;
-    sh:property [ sh:path schema:name ;
-                  sh:minCount 1;
-                  sh:severity    sh:Violation ;
-                ] ;
+    sh:name        "Person: verplichte eigenschappen"@nl ;
+    sh:description "Eigenschappen die voor elke persoon aanwezig moeten zijn."@nl ;
+    sh:property    [ sh:path     schema:name ;
+                     sh:minCount 1 ;
+                     sh:severity sh:Violation ;
+                     sh:message  "Person: schema:name ontbreekt."@nl ] ;
 .
 
 cn:PersonShapeMaxCount
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:Person ;
-    sh:name "schema:Person: veld komt te vaak voor" ;
-    sh:description "veld komt te vaak voor" ;
-    sh:property [ sh:path schema:name ;
-                  sh:maxCount 1;
-                  sh:severity    sh:Violation ; ] ;
-    sh:property [ sh:path schema:birthDate ;
-                  sh:maxCount 1;
-                  sh:severity  sh:Warning ; ] ;
-    sh:property [ sh:path schema:deathDate ;
-                  sh:maxCount 1;
-                  sh:severity  sh:Warning ; ] ;
+    sh:name        "Person: maximum aantal waarden"@nl ;
+    sh:description "Eigenschappen die maximaal één waarde mogen hebben."@nl ;
+    sh:property    [ sh:path     schema:name ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Violation ;
+                     sh:message  "Person: schema:name mag maximaal één waarde hebben."@nl ] ;
+    sh:property    [ sh:path     schema:birthDate ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "Person: schema:birthDate mag maximaal één waarde hebben."@nl ] ;
+    sh:property    [ sh:path     schema:deathDate ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "Person: schema:deathDate mag maximaal één waarde hebben."@nl ] ;
 .
 
 cn:PersonShapeType
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:Person ;
-    sh:name "schema:Person: veld type incorrect" ;
-    sh:description "veld type incorrect" ;
-    sh:property [ sh:path schema:name ;
-                  sh:datatype rdf:langString ;
-                  sh:severity    sh:Warning ; ] ;
-    sh:property [ sh:path schema:birthDate ;
-                  sh:pattern  "^\\d{4}-\\d{2}-\\d{2}$";
-                  sh:severity  sh:Warning ; ] ;
-    sh:property [ sh:path schema:deathDate ;
-                  sh:pattern  "^\\d{4}-\\d{2}-\\d{2}$";
-                  sh:severity  sh:Warning ; ] ;
+    sh:name        "Person: waardetype en formaat"@nl ;
+    sh:description "Eigenschappen waarvan de waarde van het juiste type of in het juiste formaat moet zijn."@nl ;
+    sh:property    [ sh:path     schema:name ;
+                     sh:datatype rdf:langString ;
+                     sh:severity sh:Warning ;
+                     sh:message  "Person: schema:name moet tekst met taalcode zijn (bv. \"...\"@nl)."@nl ] ;
+    sh:property    [ sh:path     schema:birthDate ;
+                     sh:pattern  "^\\d{4}-\\d{2}-\\d{2}$" ;
+                     sh:severity sh:Warning ;
+                     sh:message  "Person: schema:birthDate moet de vorm JJJJ-MM-DD hebben."@nl ] ;
+    sh:property    [ sh:path     schema:deathDate ;
+                     sh:pattern  "^\\d{4}-\\d{2}-\\d{2}$" ;
+                     sh:severity sh:Warning ;
+                     sh:message  "Person: schema:deathDate moet de vorm JJJJ-MM-DD hebben."@nl ] ;
 .
 
+
+# ===========================================================================
+# schema:Organization
+# ===========================================================================
 
 cn:OrganizationShapeMinCount
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:Organization ;
-    sh:name "schema:Organization: verplicht veld ontbreekt" ;
-    sh:description "veld ontbreekt" ;
-    sh:property [ sh:path schema:name ;
-                  sh:minCount 1;
-                  sh:severity    sh:Violation ;
-                ] ;
+    sh:name        "Organization: verplichte eigenschappen"@nl ;
+    sh:description "Eigenschappen die voor elke organisatie aanwezig moeten zijn."@nl ;
+    sh:property    [ sh:path     schema:name ;
+                     sh:minCount 1 ;
+                     sh:severity sh:Violation ;
+                     sh:message  "Organization: schema:name ontbreekt."@nl ] ;
 .
+
 cn:OrganizationShapeMaxCount
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:Organization ;
-    sh:name "schema:Organization: veld komt te vaak voor" ;
-    sh:description "veld komt te vaak voor" ;
-    sh:property [ sh:path schema:name ;
-                  sh:maxCount 1;
-                  sh:severity    sh:Violation ;
-                ] ;
-    sh:property [ sh:path schema:url ;
-                  sh:severity  sh:Warning ;
-                  sh:maxCount 1;
-        ] ;
+    sh:name        "Organization: maximum aantal waarden"@nl ;
+    sh:description "Eigenschappen die maximaal één waarde mogen hebben."@nl ;
+    sh:property    [ sh:path     schema:name ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Violation ;
+                     sh:message  "Organization: schema:name mag maximaal één waarde hebben."@nl ] ;
+    sh:property    [ sh:path     schema:url ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "Organization: schema:url mag maximaal één waarde hebben."@nl ] ;
 .
+
 cn:OrganizationShapeType
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:Organization ;
-    sh:name "schema:Organization: veld heeft verkeerd type" ;
-    sh:description "veld type incorrect" ;
-    sh:property [ sh:path schema:name ;
-                  sh:datatype rdf:langString ;
-                  sh:uniqueLang true ;
-                  sh:severity    sh:Violation ;
-                ] ;
-    sh:property [ sh:path schema:url ;
-                  sh:nodeKind sh:IRI;
-                  sh:severity  sh:Warning ;
-                ] ;
-    sh:property [ sh:path schema:sameAs ;
-                  sh:nodeKind sh:IRI;
-                  sh:severity  sh:Warning ;
-                ] ;
+    sh:name        "Organization: waardetype en formaat"@nl ;
+    sh:description "Eigenschappen waarvan de waarde van het juiste type moet zijn."@nl ;
+    sh:property    [ sh:path       schema:name ;
+                     sh:datatype   rdf:langString ;
+                     sh:uniqueLang true ;
+                     sh:severity   sh:Violation ;
+                     sh:message    "Organization: schema:name moet tekst met taalcode zijn (bv. \"...\"@nl), maximaal één per taal."@nl ] ;
+    sh:property    [ sh:path     schema:url ;
+                     sh:nodeKind sh:IRI ;
+                     sh:severity sh:Warning ;
+                     sh:message  "Organization: schema:url moet een URI zijn."@nl ] ;
+    sh:property    [ sh:path     schema:sameAs ;
+                     sh:nodeKind sh:IRI ;
+                     sh:severity sh:Warning ;
+                     sh:message  "Organization: schema:sameAs moet een URI zijn."@nl ] ;
 .
 
-cn:DefinedTermShapeMaxCount
-    a sh:NodeShape ;
-    sh:targetClass schema:DefinedTerm ;
-    sh:name "schema:DefinedTerm: verplicht veld komt te vaak voor" ;
-    sh:description "veld komt te vaak voor" ;
-    sh:property [ sh:path schema:name ;
-                  sh:maxCount 1;
-                  sh:severity    sh:Violation ;
-                ] ;
-    sh:property [ sh:path schema:sameAs ;
-                  sh:severity  sh:Warning ;
-                  sh:maxCount 1;
-                ] ;
-.
+
+# ===========================================================================
+# schema:DefinedTerm
+# ===========================================================================
+
 cn:DefinedTermShapeMinCount
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:DefinedTerm ;
-    sh:name "schema:DefinedTerm: verplicht veld ontbreekt" ;
-    sh:description "veld ontbreekt" ;
-    sh:property [ sh:path schema:name ;
-                  sh:minCount 1;
-                  sh:severity    sh:Violation ;
-                ] ;
-
+    sh:name        "DefinedTerm: verplichte eigenschappen"@nl ;
+    sh:description "Eigenschappen die voor elke term aanwezig moeten zijn."@nl ;
+    sh:property    [ sh:path     schema:name ;
+                     sh:minCount 1 ;
+                     sh:severity sh:Violation ;
+                     sh:message  "DefinedTerm: schema:name ontbreekt."@nl ] ;
 .
+
 cn:DefinedTermShapeType
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:DefinedTerm ;
-    sh:name "schema:DefinedTerm: type veld incorrect" ;
-    sh:description "type veld incorrect" ;
-    sh:property [ sh:path schema:name ;
-                  sh:datatype rdf:langString ;
-                  sh:uniqueLang true ;
-                  sh:severity    sh:Violation ;
-                ] ;
-    sh:property [ sh:path schema:sameAs ;
-                  sh:severity  sh:Warning ;
-                  sh:nodeKind sh:IRI;
-                ] ;
-
-
+    sh:name        "DefinedTerm: waardetype en formaat"@nl ;
+    sh:description "Eigenschappen waarvan de waarde van het juiste type moet zijn."@nl ;
+    sh:property    [ sh:path       schema:name ;
+                     sh:datatype   rdf:langString ;
+                     sh:uniqueLang true ;
+                     sh:severity   sh:Violation ;
+                     sh:message    "DefinedTerm: schema:name moet tekst met taalcode zijn (bv. \"...\"@nl), maximaal één per taal."@nl ] ;
+    sh:property    [ sh:path     schema:sameAs ;
+                     sh:nodeKind sh:IRI ;
+                     sh:severity sh:Warning ;
+                     sh:message  "DefinedTerm: schema:sameAs moet een URI zijn."@nl ] ;
 .
+
+
+# ===========================================================================
+# schema:QuantitativeValue
+# (IRI's cn:QuantativeValue* bewust ongewijzigd gelaten; zie toelichting)
+# ===========================================================================
 
 cn:QuantativeValueMaxCount
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:QuantitativeValue ;
-    sh:description "veld komt te vaak voor";
-    sh:property [ sh:path schema:value ;
-                  sh:severity  sh:Warning ;
-                  sh:maxCount 1;
-                ] ;
-
+    sh:name        "QuantitativeValue: maximum aantal waarden"@nl ;
+    sh:description "Eigenschappen die maximaal één waarde mogen hebben."@nl ;
+    sh:property    [ sh:path     schema:value ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "QuantitativeValue: schema:value mag maximaal één waarde hebben."@nl ] ;
 .
+
 cn:QuantativeValueType
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:QuantitativeValue ;
-    sh:description "veld type incorrect" ;
-    sh:property [ sh:path schema:value ;
-                  sh:datatype xsd:decimal;
-                  sh:severity  sh:Warning ;
-                ] ;
-    sh:property [ sh:path schema:unitText ;
-                  sh:datatype xsd:string ;
-                  sh:severity  sh:Warning ;
-                ] ;
+    sh:name        "QuantitativeValue: waardetype en formaat"@nl ;
+    sh:description "Eigenschappen waarvan de waarde van het juiste type moet zijn."@nl ;
+    sh:property    [ sh:path     schema:value ;
+                     sh:datatype xsd:decimal ;
+                     sh:severity sh:Warning ;
+                     sh:message  "QuantitativeValue: schema:value moet een getal (xsd:decimal) zijn."@nl ] ;
+    sh:property    [ sh:path     schema:unitText ;
+                     sh:datatype xsd:string ;
+                     sh:severity sh:Warning ;
+                     sh:message  "QuantitativeValue: schema:unitText moet tekst zonder taalcode zijn."@nl ] ;
 .
 
-# samengevoegd omdat het maar 1 type bevat die getoetst wordt
+
+# ===========================================================================
+# schema:PropertyValue
+# (maxCount en type samengevoegd: er wordt maar één eigenschap getoetst)
+# ===========================================================================
+
 cn:PropertyValue
-    a sh:NodeShape ;
+    a              sh:NodeShape ;
     sh:targetClass schema:PropertyValue ;
-    sh:property [ sh:path schema:value ;
-                  sh:datatype xsd:string;
-                  sh:severity  sh:Warning ;
-                  sh:description "schema:value is geen string" ;
-                ] ;
-    sh:property [ sh:path schema:value ;
-                  sh:severity  sh:Warning ;
-                  sh:maxCount 1;
-                  sh:description "schema:value komt te vaak voor" ;
-                ] ;
+    sh:name        "PropertyValue: aantal waarden en waardetype"@nl ;
+    sh:description "schema:value moet precies één tekstwaarde zijn."@nl ;
+    sh:property    [ sh:path     schema:value ;
+                     sh:datatype xsd:string ;
+                     sh:severity sh:Warning ;
+                     sh:message  "PropertyValue: schema:value moet tekst zonder taalcode zijn."@nl ] ;
+    sh:property    [ sh:path     schema:value ;
+                     sh:maxCount 1 ;
+                     sh:severity sh:Warning ;
+                     sh:message  "PropertyValue: schema:value mag maximaal één waarde hebben."@nl ] ;
 .
